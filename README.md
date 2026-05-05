@@ -1,3 +1,13 @@
+---
+title: Dashcam Highlight Extractor
+emoji: 🚗
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
 # Dashcam Highlight Extractor
 
 A CPU-friendly pipeline for automatically extracting dangerous or noteworthy segments from dashcam footage using rule-based heuristics on YOLO-tracked object trajectories.
