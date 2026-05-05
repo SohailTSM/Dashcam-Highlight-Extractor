@@ -117,15 +117,6 @@ with gr.Blocks(
             video_input = gr.Video(label="Upload Dashcam Video", sources=["upload"])
 
         with gr.Column(scale=1):
-            gr.Examples(
-                examples=[
-                    ["data/input/clip_1_comp.mp4"],
-                    ["data/input/clip_2_comp.mp4"],
-                    ["data/input/clip_3_comp.mp4"]
-                ],
-                inputs=video_input,
-                label="Or select a sample video:"
-            )
             gr.Markdown("### Settings")
             score_slider = gr.Slider(
                 minimum=0.1, maximum=0.9, value=0.28, step=0.05,
