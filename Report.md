@@ -1,16 +1,21 @@
 # Dashcam Highlight Extractor: A Rule-Based Heuristic Pipeline for Dangerous Event Detection in Dashcam Video
 
 **GitHub Repository:** [Dashcam-Highlight-Extractor](https://github.com/SohailTSM/Dashcam-Highlight-Extractor)  
-**Screen Demo:** [Dashcam-Highlight-Extractor]()
-**Live App:** [Dashcam-Highlight-Extractor](https://)
+**Screen Demo:** [Demo](https://www.youtube.com/watch?v=qqVB9g0fiyo)
+**Live App:** [Dashcam-Highlight-Extractor](https://huggingface.co/spaces/sohailtsm/Dashcam-Highlight-Extractor)
+
+**NOTE:** The live app is currently running on a CPU instance, hence it is way too slow. Please run the app locally to experience the full performance or refer to the screen demo. The unlisted youtube video shows the demo and is of length < 3 minutes. (Couldn't complete the demo in < 2 minutes)
 
 **Team Name:** Irrelevant  
-**Team Members:**  
-- Sohail Memon, 2025201075  
-- Md Taufique Hussain, 2025202007  
-- Mohd Ahmad, 2025201029  
-- Kathan Patel, 2025201039  
-- Mohd Shahid Kaleem, 2025204008  
+**Team Members:**
+
+| Name                | Roll Number | Email                                  |
+| :------------------ | :---------- | :------------------------------------- |
+| Sohail Memon        | 2025201075  | sohail.memon@students.iiit.ac.in       |
+| Md Taufique Hussain | 2025202007  | mdtaufique.hussain@students.iiit.ac.in |
+| Mohd Ahmad          | 2025201029  | mohd.ahmad@students.iiit.ac.in         |
+| Kathan Patel        | 2025201039  | kathan.patel@students.iiit.ac.in       |
+| Mohd Shahid Kaleem  | 2025204008  | mohd.kaleem@students.iiit.ac.in        |
 
 ---
 
@@ -331,6 +336,20 @@ The system was evaluated qualitatively on a 10-minute near-miss dashcam compilat
 - H7 (Traffic Activity) contributed marginally and inflated scores during normal busy intersections; its weight (0.05) appropriately limits its impact.
 - Processing speed: ~1.5× realtime on Intel Core i7 (no GPU), `frame_stride = 2`.
 
+### 5.1 Application Screenshots
+
+**Deployed on Hugging Face Spaces:**
+![Deployed App](Screenshots/Deployed.png)
+
+**Application Demo:**
+![Demo 1](Screenshots/EG%201.png)
+
+![Demo 2](Screenshots/EG%202.png)
+
+![Demo 3](Screenshots/EG%203.png)
+
+![Demo 4](Screenshots/EG%204.png)
+
 ---
 
 ## 6. Limitations
@@ -366,3 +385,7 @@ The system was evaluated qualitatively on a 10-minute near-miss dashcam compilat
 6. **Lin, T.-Y. et al.** (2014). _Microsoft COCO: Common Objects in Context._ ECCV 2014. arXiv:1405.0312
 
 7. **Geiger, A. et al.** (2012). _Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite._ CVPR 2012. _(Reference for dashcam evaluation methodology.)_
+
+## 8. Acknowledgements
+
+We have used Google Antigravity IDE for the development of this project. And also used it for some code scaffolding and report writing.
