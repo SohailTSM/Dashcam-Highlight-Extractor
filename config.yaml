@@ -1,0 +1,93 @@
+detector:
+  model_path: weights/yolov8n.pt
+  confidence_threshold: 0.35
+  iou_threshold: 0.45
+  frame_stride: 2
+  # COCO class IDs: person=0, bicycle=1, car=2, motorcycle=3, bus=5, truck=7
+  target_classes: [0, 1, 2, 3, 5, 7]
+  # ByteTrack / BoT-SORT config bundled with ultralytics
+  tracker_config: bytetrack.yaml
+  # Snapshot history window per track
+  track_window: 30
+  # EMA smoothing for bbox area (0=max smooth, 1=raw YOLO)
+  area_ema_alpha: 0.35
+  # Force CPU by default to avoid PyTorch/CUDA compute capability mismatch errors on older GPUs
+  device: "cpu"
+
+ego_motion:
+  use_affine: true
+  max_corners: 200
+  quality_level: 0.01
+  min_distance: 10
+  min_bg_points: 10
+  fb_error_threshold: 1.0      # forward-backward consistency check (px)
+  ransac_threshold: 3.0        # reprojection threshold for RANSAC inside estimateAffinePartial2D
+  min_confidence: 0.2          # inlier fraction below which ego motion is marked invalid
+
+
+
+heuristics:
+  # H1 — Rapid Approach (relative, ego-gated)
+  w_rapid_approach: 0.15
+  area_rel_max: 0.08           # Raised 0.04->0.08: requires faster approach to score high
+  h1_min_history: 7            # Raised 5->7: slightly longer observation to ignore jitter
+
+  # H2 — Lateral Cut-In
+  w_lateral_cutin: 0.15
+  v_min_px_s: 15               # min speed (px/s) to compute angle
+  h2_min_history: 7            # lowered 14→7: detect cut-ins faster
+
+  # H3 — Sudden Braking
+  w_sudden_braking: 0.10
+  decel_beta_max: 30           # px/s² deceleration cap
+  h3_min_history: 6            # lowered 10→6
+
+  # H4 — Near-Miss Proximity
+  w_nearmiss_proximity: 0.12
+  class_ref_area:
+    person: 0.035
+    bicycle: 0.030
+    car: 0.060
+    motorcycle: 0.025
+    bus: 0.120
+    truck: 0.090
+  proximity_top_k: 3
+  proximity_sum_threshold: 0.50
+
+  # H5 — Complexity + Motion Entropy
+  w_scene_complexity: 0.08
+  complexity_z_max: 3.0
+  motion_entropy_bins: 8
+  complexity_bg_window: 90     # frames for rolling baseline
+
+  # H6 — Pedestrian in Road Zone
+  w_pedestrian_road: 0.12
+  road_zone: [0.35, 0.85, 0.10, 0.90]   # [y_min, y_max, x_min, x_max] as fractions
+  ped_disp_max_px_s: 250               # px/s threshold for motion scoring
+  ped_static_score: 0.55
+
+  # H7 — Stable Birth/Death Rate + Spatial Spread
+  w_birth_death_rate: 0.05
+  birth_death_window: 20       # frames
+  birth_death_range: 0.3       # normalisation denominator for excess rate
+  spatial_grid: 3              # NxN grid for spatial entropy
+
+  # H8 — Time-To-Collision
+  w_ttc: 0.15
+  ttc_window: 7                # Raised 5->7: needs 7 points for stable regression
+  ttc_max_s: 2.5               # Lowered 3.0->2.5: only very imminent collisions trigger
+  ttc_min_area_rate: 0.008     # Raised 0.004->0.008: strictly filters slow ambient area drift/jitter
+
+segmenter:
+  score_threshold: 0.28     # lowered: near-miss compilation has dense events
+  gap_fill_s: 1.0           # tightened: avoid merging adjacent distinct events
+  min_duration_s: 1.5       # lowered: allow short sharp events
+  max_duration_s: 12.0
+  max_highlights: 30        # raised: 10-min compilation needs more slots
+  smooth_sigma_s: 0.4       # slightly tighter smoothing
+
+exporter:
+  write_annotated: false       # set true via --annotated CLI flag to enable
+  clip_padding_s: 0.5
+  score_bar_height: 20         # pixels for score overlay bar
+  fourcc: mp4v                 # codec for output video
